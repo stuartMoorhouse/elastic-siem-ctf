@@ -138,7 +138,7 @@ Description: Identifies run key or startup key registry modifications. In order 
 MITRE ATT&CK: 
 Persistence (TA0003)
 Boot or Logon Autostart Execution (T1547)
-Registry Run Keys / Startup Folder (T1547.0
+Registry Run Keys / Startup Folder (T1547.0)
 
 index patterns: logs-endpoint.events.registry-*
 EQL query: registry where host.os.type == "windows" and event.type == "change" and 

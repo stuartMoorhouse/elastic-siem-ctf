@@ -87,21 +87,83 @@ The ingestion script automatically handles the following data streams:
 4. **Memory**: Monitor memory usage for large datasets
 5. **Error Handling**: Script includes retry logic and error reporting
 
-## Workflow Example
+## Complete CTF Workflow
 
 ```bash
-# 1. Generate normal background events
+# 1. Generate normal background events (Sept 22, 2025)
+python3 scripts/generate-normal-events.py \
+  --count 5000 \
+  --start-date 2025-09-22 \
+  --end-date 2025-09-22 \
+  --output normal-events/background.ndjson
+
+# 2. Ingest all events (attack + background)
+python3 scripts/ingest-data.py \
+  attack-events/*.json \
+  normal-events/background.ndjson \
+  --credentials credentials.yml \
+  --parallel
+
+# 3. Force rules to run with historical lookback
+python3 scripts/execute-rules.py \
+  --credentials credentials.yml \
+  --lookback-days 30 \
+  --update-schedule \
+  --execute \
+  --check-alerts
+
+# 4. Verify alerts were generated
+# Check in Kibana: Security → Alerts
+```
+
+## Workflow Example (Current Date)
+
+```bash
+# 1. Generate normal background events (today's date)
 python3 scripts/generate-normal-events.py --count 5000
 
 # 2. Ingest all events
 python3 scripts/ingest-data.py \
   attack-events/*.json \
-  normal-events/background.ndjson \
+  normal-events/generated-events.ndjson \
   --parallel
 
-# 3. Verify ingestion
-python3 scripts/ingest-data.py events.json --dry-run
+# 3. Rules will auto-execute within 5-10 minutes
+# Or force execution:
+python3 scripts/execute-rules.py --execute --check-alerts
 ```
+
+### 3. execute-rules.py
+
+Forces Elastic Security detection rules to run with custom lookback period to cover historical events.
+
+**Usage:**
+
+```bash
+# Force all rules to run with 30-day lookback for September 2025 events
+python3 scripts/execute-rules.py \
+  --credentials credentials.yml \
+  --lookback-days 30 \
+  --update-schedule \
+  --execute \
+  --check-alerts
+
+# Update only specific rules
+python3 scripts/execute-rules.py \
+  --rule-names "Mimikatz" "PowerShell" \
+  --lookback-days 30 \
+  --update-schedule \
+  --execute
+```
+
+**Options:**
+- `--credentials`: Path to credentials.yml file
+- `--lookback-days`: Number of days to look back (default: 30)
+- `--rule-names`: Specific rule names to execute (optional)
+- `--update-schedule`: Update rule schedules with longer lookback
+- `--execute`: Force immediate execution of rules
+- `--check-alerts`: Check for generated alerts after execution
+- `--no-verify`: Disable SSL certificate verification
 
 ## Troubleshooting
 
@@ -109,3 +171,4 @@ python3 scripts/ingest-data.py events.json --dry-run
 - **Timeout errors**: Reduce chunk-size or threads
 - **Memory errors**: Use NDJSON format and reduce chunk-size
 - **SSL errors**: Use --no-verify flag (not recommended for production)
+- **No alerts generated**: Ensure rules have sufficient lookback period for event timestamps
