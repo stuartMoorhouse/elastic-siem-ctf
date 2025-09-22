@@ -754,3 +754,169 @@ All Python scripts should:
 - Ensure proper index naming with `-default` suffix
 - Use `data_stream` object for proper routing
 
+### 9. Alert Diagnostic Process
+
+When alerts aren't firing as expected, use this diagnostic approach:
+
+#### Step 1: Verify Rule Execution Status
+```bash
+python3 scripts/execute-rules.py --check-status
+```
+Check for:
+- ✅ succeeded: Rule ran successfully
+- ❌ failed: Field mapping conflicts or query errors
+- ⚠️ partial failure: Some shards unavailable
+
+#### Step 2: Test Rule Queries Directly
+```bash
+python3 scripts/diagnose-rules.py
+```
+This script:
+- Tests each rule's query against the actual data
+- Shows which events match and which don't
+- Identifies missing fields or conditions
+
+#### Step 3: Common Issues and Solutions
+
+**Issue: Rules execute but don't generate alerts**
+- Cause: Events don't match exact query conditions
+- Solution: Check these specific requirements:
+
+1. **Office Child Process Rule**: Requires `process.parent.name` field
+   - Fix: Ensure events have parent process information
+
+2. **File Execution Rule**: Requires EQL sequence correlation
+   - Fix: Events need matching `host.id` and occur within time window
+
+3. **Registry Rules**: Requires exact `registry.path` format
+   - Fix: Path must include full registry key with backslashes
+
+4. **Network Rules**: Requires process AND network events with same `entity_id`
+   - Fix: Ensure both event types exist with matching correlation ID
+
+5. **Mimikatz Rule**: Requires exact file and process names
+   - Fix: `file.name: "mimilsa.log"` AND `process.name: "lsass.exe"`
+
+6. **Startup Persistence**: Requires exact path matching
+   - Fix: Path must match pattern exactly, including wildcards
+
+**Issue: Field mapping conflicts**
+- Cause: Same field has different types across indices
+- Solution: Ensure all indices use consistent ECS mappings
+- Common conflicts:
+  - `event.category`: Must be `keyword` not `text`
+  - `event.type`: Must be `keyword` not `text`
+  - `process.args_count`: Must be `long` not `text`
+
+#### Step 4: Why Alerts Don't Fire Despite Matching Data
+
+Even when events exist that seem to match rule conditions, alerts may not fire because:
+
+1. **Timing Issues**
+   - Rules have already processed the time window
+   - Solution: Disable and re-enable the rule to force re-processing
+
+2. **EQL Sequence Requirements**
+   - Sequence rules need events in exact order with correlation IDs
+   - Events must occur within the specified `maxspan` time window
+   - Solution: Verify `process.entity_id` or `host.id` matches between events
+
+3. **Exact String Matching**
+   - KQL uses exact matches for some fields
+   - Example: `process.parent.name: "EXCEL.EXE"` won't match `"excel.exe"`
+   - Solution: Check case sensitivity and exact values
+
+4. **Array vs Single Value**
+   - Some fields expect arrays: `event.type: ["start"]` not `"start"`
+   - Solution: Ensure fields are properly formatted as arrays
+
+5. **Missing Correlation Fields**
+   - Network rules need `process.entity_id` for correlation
+   - File rules need `host.id` for sequence matching
+   - Solution: Add required correlation fields to events
+
+#### Step 5: Debug Specific Rules
+```python
+# Test why a specific rule isn't matching
+from elasticsearch import Elasticsearch
+
+client = Elasticsearch(...)
+
+# Example: Test Office Child Process rule
+result = client.search(
+    index="logs-system.security-default",
+    query={
+        "bool": {
+            "must": [
+                {"match": {"host.os.type": "windows"}},
+                {"match": {"event.type": "start"}},
+                {"exists": {"field": "process.parent.name"}}
+            ]
+        }
+    }
+)
+print(f"Matching events: {result['hits']['total']['value']}")
+```
+
+### 10. Manual Rule Execution Process
+
+Since Elastic detection rules run on a schedule (typically every 5 minutes with 1-minute lookback), historical events from September 2025 won't be detected automatically. You must manually trigger rule execution with extended lookback:
+
+#### Option 1: Using Kibana UI (Recommended)
+1. Navigate to Security → Rules in Kibana
+2. Select all relevant rules (use filters to find CTF rules)
+3. Click "Bulk Actions" → "Schedule backfill"
+4. Set time range to cover September 22, 2025
+5. Execute the backfill
+
+#### Option 2: Using Detection Engine API
+```bash
+# Update rule schedules to look back further
+curl -X POST "${KIBANA_URL}/api/detection_engine/rules/_bulk_action" \
+  -H "kbn-xsrf: true" \
+  -H "Authorization: ApiKey ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "action": "edit",
+    "ids": ["rule-id-1", "rule-id-2"],
+    "edit": [{
+      "type": "set_schedule",
+      "value": {
+        "interval": "5m",
+        "lookback": "90d",
+        "from": "now-90d"
+      }
+    }]
+  }'
+
+# Then disable and re-enable rules to trigger execution
+curl -X POST "${KIBANA_URL}/api/detection_engine/rules/_bulk_action" \
+  -H "kbn-xsrf: true" \
+  -H "Authorization: ApiKey ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"action": "disable", "ids": ["rule-id-1", "rule-id-2"]}'
+
+sleep 2
+
+curl -X POST "${KIBANA_URL}/api/detection_engine/rules/_bulk_action" \
+  -H "kbn-xsrf: true" \
+  -H "Authorization: ApiKey ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"action": "enable", "ids": ["rule-id-1", "rule-id-2"]}'
+```
+
+#### Option 3: Using Python Script (execute-rules.py)
+```bash
+# Run the provided script with extended lookback
+python3 scripts/execute-rules.py --update-schedule --execute --lookback-days 90
+```
+
+#### Important Notes:
+- Rules need time to process after triggering (typically 1-5 minutes)
+- Check alerts in Security → Alerts or using `.siem-signals-*` index
+- If no alerts appear, verify:
+  - Events are in correct indices with proper field mappings
+  - Rules are enabled and have correct index patterns
+  - Time range covers the event timestamps
+  - No filters are blocking the detection
+
