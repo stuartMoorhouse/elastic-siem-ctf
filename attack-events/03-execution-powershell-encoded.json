@@ -1,0 +1,54 @@
+{
+  "@timestamp": "2025-09-22T08:53:00.000Z",
+  "event": {
+    "category": "process",
+    "type": "info",
+    "kind": "event",
+    "action": "script-block-log",
+    "dataset": "windows.powershell"
+  },
+  "host": {
+    "name": "DESKTOP-SALES042",
+    "hostname": "DESKTOP-SALES042",
+    "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
+    "os": {
+      "type": "windows",
+      "platform": "windows",
+      "family": "windows"
+    }
+  },
+  "powershell": {
+    "file": {
+      "script_block_text": "$data = [System.Convert]::FromBase64String('H4sIAAAAAAAAA+1XbW/bNhD+3l9xYIECbWFJtpO0DYp9adYCXdcWTTcMAwqGFi8WG4kUSMqxN/S/70jJkiXZSdoN2IB9sA3xeDw+d8/dkeLp06ePHz9+/Pjx48ePHz9+/Pjx4ycRExMJRZSkJCWxhGKKJRQzAktYJqBYQrGEYokkEkkkkkgiiUQSiSQSSSSSSOLkyZOnT58+ffr06dOnT58+ffr06VPjb3QyYEzjJMkEyyXLBcslywVn2eSEa5IJlkmWC84J54RzknnJvGReMi+Zl8xL5iXzkvmXLxcu'); $stream = New-Object IO.MemoryStream(, $data); $gzip = New-Object System.IO.Compression.GzipStream($stream, [IO.Compression.CompressionMode]::Decompress); $reader = New-Object IO.StreamReader($gzip); $output = $reader.ReadToEnd(); $reader.Close(); $gzip.Close(); $stream.Close(); Invoke-Expression $output",
+      "script_block_id": "e545c4a5-f8c6-4b3a-8b2f-1a2b3c4d5e6f"
+    },
+    "sequence": 1,
+    "total": 1
+  },
+  "winlog": {
+    "api": "wineventlog",
+    "channel": "Microsoft-Windows-PowerShell/Operational",
+    "computer_name": "DESKTOP-SALES042",
+    "event_id": "4104",
+    "provider_name": "Microsoft-Windows-PowerShell",
+    "task": "Execute a Remote Command"
+  },
+  "process": {
+    "executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "pid": 4532
+  },
+  "user": {
+    "name": "jsmith",
+    "domain": "SALES",
+    "id": "S-1-5-21-123456789-1234567890-123456789-1001"
+  },
+  "data_stream": {
+    "dataset": "windows.powershell_operational",
+    "namespace": "default",
+    "type": "logs"
+  },
+  "_index": "winlogbeat-8.0.0",
+  "ecs": {
+    "version": "8.0.0"
+  }
+}

@@ -1,0 +1,103 @@
+[
+  {
+    "@timestamp": "2025-09-22T09:15:00.000Z",
+    "event": {
+      "type": "start",
+      "kind": "event",
+      "category": "process",
+      "action": "process-started",
+      "dataset": "windows.sysmon_operational"
+    },
+    "host": {
+      "name": "DESKTOP-SALES042",
+      "hostname": "DESKTOP-SALES042",
+      "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
+      "os": {
+        "type": "windows",
+        "platform": "windows",
+        "family": "windows"
+      }
+    },
+    "process": {
+      "name": "cmd.exe",
+      "executable": "C:\\Windows\\System32\\cmd.exe",
+      "command_line": "cmd.exe /c whoami && ipconfig /all && net user && net group \"Domain Admins\" /domain",
+      "pid": 6543,
+      "entity_id": "process-6543-entity",
+      "parent": {
+        "name": "powershell.exe",
+        "pid": 4532
+      }
+    },
+    "user": {
+      "name": "jsmith",
+      "domain": "SALES"
+    },
+    "_index": "logs-windows.sysmon_operational",
+  "data_stream": {
+      "dataset": "windows.sysmon_operational",
+      "namespace": "default",
+      "type": "logs"
+    },
+    "ecs": {
+      "version": "8.0.0"
+    }
+  },
+  {
+    "@timestamp": "2025-09-22T09:16:00.000Z",
+    "event": {
+      "type": "connection",
+      "kind": "event",
+      "category": "network",
+      "action": "network-connection",
+      "dataset": "windows.sysmon_operational"
+    },
+    "host": {
+      "name": "DESKTOP-SALES042",
+      "hostname": "DESKTOP-SALES042",
+      "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
+      "os": {
+        "type": "windows",
+        "platform": "windows",
+        "family": "windows"
+      }
+    },
+    "process": {
+      "name": "cmd.exe",
+      "executable": "C:\\Windows\\System32\\cmd.exe",
+      "pid": 6543,
+      "entity_id": "process-6543-entity"
+    },
+    "network": {
+      "protocol": "tcp",
+      "direction": "outbound"
+    },
+    "destination": {
+      "ip": "185.220.101.45",
+      "port": 8080,
+      "address": "185.220.101.45"
+    },
+    "source": {
+      "ip": "172.16.1.42",
+      "port": 49152
+    },
+    "dns": {
+      "question": {
+        "name": ""
+      }
+    },
+    "user": {
+      "name": "jsmith",
+      "domain": "SALES"
+    },
+    "_index": "logs-windows.sysmon_operational",
+  "data_stream": {
+      "dataset": "windows.sysmon_operational",
+      "namespace": "default",
+      "type": "logs"
+    },
+    "ecs": {
+      "version": "8.0.0"
+    }
+  }
+]

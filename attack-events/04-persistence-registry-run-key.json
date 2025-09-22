@@ -1,0 +1,49 @@
+{
+  "@timestamp": "2025-09-22T09:05:15.000Z",
+  "event": {
+    "type": "change",
+    "kind": "event",
+    "category": "registry",
+    "action": "registry-value-set",
+    "dataset": "endpoint.events.registry"
+  },
+  "host": {
+    "name": "DESKTOP-SALES042",
+    "hostname": "DESKTOP-SALES042",
+    "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
+    "os": {
+      "type": "windows",
+      "platform": "windows",
+      "family": "windows"
+    }
+  },
+  "registry": {
+    "hive": "HKEY_USERS",
+    "key": "S-1-5-21-123456789-1234567890-123456789-1001\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+    "path": "HKEY_USERS\\S-1-5-21-123456789-1234567890-123456789-1001\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\WindowsUpdateHelper",
+    "value": "WindowsUpdateHelper",
+    "data": {
+      "strings": "C:\\Users\\jsmith\\AppData\\Roaming\\WindowsUpdateHelper.exe",
+      "type": "REG_SZ"
+    }
+  },
+  "process": {
+    "name": "powershell.exe",
+    "executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "pid": 4532
+  },
+  "user": {
+    "name": "jsmith",
+    "domain": "SALES",
+    "id": "S-1-5-21-123456789-1234567890-123456789-1001"
+  },
+  "data_stream": {
+    "dataset": "endpoint.events.registry",
+    "namespace": "default",
+    "type": "logs"
+  },
+  "_index": "logs-endpoint.events.registry",
+  "ecs": {
+    "version": "8.0.0"
+  }
+}
