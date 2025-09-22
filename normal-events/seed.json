@@ -1,0 +1,295 @@
+{
+    "_index": "logs-endpoint.events.insights.ep7.2024.05.22",
+    "_id": "klFboI8BAYhpmosCYLY1",
+    "_version": 1,
+    "_source": {
+      "cloud": {
+        "image": {
+          "id": "ami-09d82b46b0bba836e"
+        },
+        "availability_zone": "us-east-1b",
+        "instance": {
+          "id": "i-0221d9aeafb65dd25"
+        },
+        "provider": "aws",
+        "machine": {
+          "type": "t3.medium"
+        },
+        "service": {
+          "name": "EC2"
+        },
+        "region": "us-east-1",
+        "account": {
+          "id": "132669612557"
+        }
+      },
+      "input": {
+        "type": "winlog"
+      },
+      "agent": {
+        "name": "SRVWIN07-PRIV",
+        "id": "66f3e42c-d1c1-4dea-8a7e-32ba4d6e547f",
+        "ephemeral_id": "531ab417-3f88-47b2-b2b0-89dfae6aceb5",
+        "type": "filebeat",
+        "version": "8.7.0"
+      },
+      "winlog": {
+        "computer_name": "SRVWIN07-PRIV",
+        "record_id": 57830,
+        "process": {
+          "pid": 612,
+          "thread": {
+            "id": 1744
+          }
+        },
+        "task": "None",
+        "event_id": "7036",
+        "keywords": [
+          "Classic"
+        ],
+        "provider_guid": "{555908d1-a6d7-4695-8e1e-26931d2012f4}",
+        "channel": "System",
+        "event_data": {
+          "Binary": "520065006D006F0074006500520065006700690073007400720079002F0031000000",
+          "param1": "Remote Registry",
+          "param2": "stopped"
+        },
+        "api": "wineventlog",
+        "opcode": "Info",
+        "provider_name": "Service Control Manager"
+      },
+      "@timestamp": "2024-05-22T12:51:34.047470336Z",
+      "ecs": {
+        "version": "8.0.0"
+      },
+      "log": {
+        "level": "information"
+      },
+      "data_stream": {
+        "namespace": "default",
+        "type": "logs",
+        "dataset": "system.system"
+      },
+      "elastic_agent": {
+        "id": "66f3e42c-d1c1-4dea-8a7e-32ba4d6e547f",
+        "version": "8.7.0",
+        "snapshot": false
+      },
+      "host": {
+        "hostname": "SRVWIN07-PRIV",
+        "os": {
+          "build": "20348.1607",
+          "kernel": "10.0.20348.1607 (WinBuild.160101.0800)",
+          "name": "Windows Server 2022 Datacenter",
+          "family": "windows",
+          "type": "windows",
+          "version": "10.0",
+          "platform": "windows"
+        },
+        "ip": [
+          "fe80::db4e:c16c:1774:88f5",
+          "172.31.1.107"
+        ],
+        "name": "SRVWIN07-PRIV",
+        "id": "e19565f6-cac8-438b-ab11-364cb76a8677",
+        "mac": [
+          "02-7D-22-68-E0-43"
+        ],
+        "architecture": "x86_64"
+      },
+      "message": "The Remote Registry service entered the stopped state.",
+      "event": {
+        "agent_id_status": "verified",
+        "ingested": "2024-05-22T12:51:34.047470336Z",
+        "code": "7036",
+        "provider": "Service Control Manager",
+        "created": "2023-04-01T22:00:47.594Z",
+        "kind": "event",
+        "action": "None",
+        "dataset": "system.system"
+      }
+    },
+    "fields": {
+      "elastic_agent.version": [
+        "8.7.0"
+      ],
+      "winlog.provider_guid": [
+        "{555908d1-a6d7-4695-8e1e-26931d2012f4}"
+      ],
+      "winlog.provider_name": [
+        "Service Control Manager"
+      ],
+      "host.hostname": [
+        "SRVWIN07-PRIV"
+      ],
+      "winlog.computer_name": [
+        "SRVWIN07-PRIV"
+      ],
+      "host.mac": [
+        "02-7D-22-68-E0-43"
+      ],
+      "cloud.availability_zone": [
+        "us-east-1b"
+      ],
+      "winlog.process.pid": [
+        612
+      ],
+      "host.os.version": [
+        "10.0"
+      ],
+      "winlog.keywords": [
+        "Classic"
+      ],
+      "winlog.record_id": [
+        "57830"
+      ],
+      "host.os.name": [
+        "Windows Server 2022 Datacenter"
+      ],
+      "log.level": [
+        "information"
+      ],
+      "agent.name": [
+        "SRVWIN07-PRIV"
+      ],
+      "host.name": [
+        "SRVWIN07-PRIV"
+      ],
+      "event.agent_id_status": [
+        "verified"
+      ],
+      "event.kind": [
+        "event"
+      ],
+      "cloud.region": [
+        "us-east-1"
+      ],
+      "host.os.type": [
+        "windows"
+      ],
+      "input.type": [
+        "winlog"
+      ],
+      "data_stream.type": [
+        "logs"
+      ],
+      "winlog.event_data.param1": [
+        "Remote Registry"
+      ],
+      "winlog.event_data.param2": [
+        "stopped"
+      ],
+      "host.architecture": [
+        "x86_64"
+      ],
+      "cloud.machine.type": [
+        "t3.medium"
+      ],
+      "cloud.provider": [
+        "aws"
+      ],
+      "event.provider": [
+        "Service Control Manager"
+      ],
+      "event.code": [
+        "7036"
+      ],
+      "agent.id": [
+        "66f3e42c-d1c1-4dea-8a7e-32ba4d6e547f"
+      ],
+      "cloud.service.name": [
+        "EC2"
+      ],
+      "ecs.version": [
+        "8.0.0"
+      ],
+      "event.created": [
+        "2023-04-01T22:00:47.594Z"
+      ],
+      "agent.version": [
+        "8.7.0"
+      ],
+      "host.os.family": [
+        "windows"
+      ],
+      "winlog.process.thread.id": [
+        1744
+      ],
+      "host.os.build": [
+        "20348.1607"
+      ],
+      "cloud.instance.id": [
+        "i-0221d9aeafb65dd25"
+      ],
+      "host.ip": [
+        "fe80::db4e:c16c:1774:88f5",
+        "172.31.1.107"
+      ],
+      "agent.type": [
+        "filebeat"
+      ],
+      "host.os.kernel": [
+        "10.0.20348.1607 (WinBuild.160101.0800)"
+      ],
+      "winlog.api": [
+        "wineventlog"
+      ],
+      "winlog.event_data.Binary": [
+        "520065006D006F0074006500520065006700690073007400720079002F0031000000"
+      ],
+      "elastic_agent.snapshot": [
+        false
+      ],
+      "host.id": [
+        "e19565f6-cac8-438b-ab11-364cb76a8677"
+      ],
+      "winlog.task": [
+        "None"
+      ],
+      "elastic_agent.id": [
+        "66f3e42c-d1c1-4dea-8a7e-32ba4d6e547f"
+      ],
+      "data_stream.namespace": [
+        "default"
+      ],
+      "message": [
+        "The Remote Registry service entered the stopped state."
+      ],
+      "winlog.event_id": [
+        "7036"
+      ],
+      "cloud.image.id": [
+        "ami-09d82b46b0bba836e"
+      ],
+      "event.action": [
+        "None"
+      ],
+      "event.ingested": [
+        "2024-05-22T12:51:34.047Z"
+      ],
+      "@timestamp": [
+        "2024-05-22T12:51:34.047Z"
+      ],
+      "winlog.channel": [
+        "System"
+      ],
+      "cloud.account.id": [
+        "132669612557"
+      ],
+      "host.os.platform": [
+        "windows"
+      ],
+      "data_stream.dataset": [
+        "system.system"
+      ],
+      "winlog.opcode": [
+        "Info"
+      ],
+      "agent.ephemeral_id": [
+        "531ab417-3f88-47b2-b2b0-89dfae6aceb5"
+      ],
+      "event.dataset": [
+        "system.system"
+      ]
+    }
+  }
