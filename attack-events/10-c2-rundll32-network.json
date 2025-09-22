@@ -1,99 +1,105 @@
 [
-  {
-    "@timestamp": "2025-09-22T11:30:00.000Z",
-    "event": {
-      "type": "start",
-      "kind": "event",
-      "category": "process",
-      "action": "process-started",
-      "dataset": "windows.sysmon_operational"
+    {
+        "@timestamp": "2025-09-22T11:30:00.000Z",
+        "event": {
+            "type": [
+                "start"
+            ],
+            "kind": "event",
+            "category": [
+                "process"
+            ],
+            "action": "process-started",
+            "dataset": "windows.sysmon_operational"
+        },
+        "host": {
+            "name": "DESKTOP-SALES042",
+            "hostname": "DESKTOP-SALES042",
+            "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
+            "os": {
+                "type": "windows",
+                "platform": "windows",
+                "family": "windows"
+            }
+        },
+        "process": {
+            "name": "rundll32.exe",
+            "executable": "C:\\Windows\\System32\\rundll32.exe",
+            "command_line": "rundll32.exe",
+            "args_count": 1,
+            "pid": 9012,
+            "entity_id": "process-9012-entity",
+            "parent": {
+                "name": "cmd.exe",
+                "pid": 8765
+            }
+        },
+        "user": {
+            "name": "jsmith",
+            "domain": "SALES"
+        },
+        "data_stream": {
+            "dataset": "windows.sysmon_operational",
+            "namespace": "default",
+            "type": "logs"
+        },
+        "ecs": {
+            "version": "8.0.0"
+        }
     },
-    "host": {
-      "name": "DESKTOP-SALES042",
-      "hostname": "DESKTOP-SALES042",
-      "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
-      "os": {
-        "type": "windows",
-        "platform": "windows",
-        "family": "windows"
-      }
-    },
-    "process": {
-      "name": "rundll32.exe",
-      "executable": "C:\\Windows\\System32\\rundll32.exe",
-      "command_line": "rundll32.exe",
-      "args_count": 1,
-      "pid": 9012,
-      "entity_id": "process-9012-entity",
-      "parent": {
-        "name": "cmd.exe",
-        "pid": 8765
-      }
-    },
-    "user": {
-      "name": "jsmith",
-      "domain": "SALES"
-    },
-    "_index": "logs-windows.sysmon_operational",
-  "data_stream": {
-      "dataset": "windows.sysmon_operational",
-      "namespace": "default",
-      "type": "logs"
-    },
-    "ecs": {
-      "version": "8.0.0"
+    {
+        "@timestamp": "2025-09-22T11:30:15.000Z",
+        "event": {
+            "type": [
+                "connection"
+            ],
+            "kind": "event",
+            "category": [
+                "network"
+            ],
+            "action": "network-connection",
+            "dataset": "windows.sysmon_operational"
+        },
+        "host": {
+            "name": "DESKTOP-SALES042",
+            "hostname": "DESKTOP-SALES042",
+            "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
+            "os": {
+                "type": "windows",
+                "platform": "windows",
+                "family": "windows"
+            }
+        },
+        "process": {
+            "name": "rundll32.exe",
+            "executable": "C:\\Windows\\System32\\rundll32.exe",
+            "pid": 9012,
+            "entity_id": "process-9012-entity"
+        },
+        "network": {
+            "protocol": "tcp",
+            "direction": "outbound"
+        },
+        "destination": {
+            "ip": "185.220.101.45",
+            "port": 443,
+            "address": "185.220.101.45"
+        },
+        "source": {
+            "ip": "172.16.1.42",
+            "port": 54321
+        },
+        "user": {
+            "name": "jsmith",
+            "domain": "SALES"
+        },
+        "data_stream": {
+            "dataset": "windows.sysmon_operational",
+            "namespace": "default",
+            "type": "logs"
+        },
+        "ecs": {
+            "version": "8.0.0"
+        }
     }
-  },
-  {
-    "@timestamp": "2025-09-22T11:30:15.000Z",
-    "event": {
-      "type": "connection",
-      "kind": "event",
-      "category": "network",
-      "action": "network-connection",
-      "dataset": "windows.sysmon_operational"
-    },
-    "host": {
-      "name": "DESKTOP-SALES042",
-      "hostname": "DESKTOP-SALES042",
-      "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
-      "os": {
-        "type": "windows",
-        "platform": "windows",
-        "family": "windows"
-      }
-    },
-    "process": {
-      "name": "rundll32.exe",
-      "executable": "C:\\Windows\\System32\\rundll32.exe",
-      "pid": 9012,
-      "entity_id": "process-9012-entity"
-    },
-    "network": {
-      "protocol": "tcp",
-      "direction": "outbound"
-    },
-    "destination": {
-      "ip": "185.220.101.45",
-      "port": 443,
-      "address": "185.220.101.45"
-    },
-    "source": {
-      "ip": "172.16.1.42",
-      "port": 54321
-    },
-    "user": {
-      "name": "jsmith",
-      "domain": "SALES"
-    },
-    "_index": "logs-windows.sysmon_operational",
-  "data_stream": {
-      "dataset": "windows.sysmon_operational",
-      "namespace": "default",
-      "type": "logs"
-    },
-    "ecs": {
-      "version": "8.0.0"
-    }
-  }
 ]

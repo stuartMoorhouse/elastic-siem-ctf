@@ -1,90 +1,96 @@
 [
-  {
-    "@timestamp": "2025-09-22T09:30:00.000Z",
-    "event": {
-      "action": "audit-log-cleared",
-      "category": "iam",
-      "type": "info",
-      "kind": "event",
-      "dataset": "system.system"
+    {
+        "@timestamp": "2025-09-22T09:30:00.000Z",
+        "event": {
+            "action": "audit-log-cleared",
+            "category": [
+                "iam"
+            ],
+            "type": [
+                "info"
+            ],
+            "kind": "event",
+            "dataset": "system.system"
+        },
+        "host": {
+            "name": "DESKTOP-SALES042",
+            "hostname": "DESKTOP-SALES042",
+            "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
+            "os": {
+                "type": "windows",
+                "platform": "windows",
+                "family": "windows"
+            }
+        },
+        "winlog": {
+            "channel": "Security",
+            "event_id": "1102",
+            "provider_name": "Microsoft-Windows-Eventlog",
+            "computer_name": "DESKTOP-SALES042"
+        },
+        "user": {
+            "name": "jsmith",
+            "domain": "SALES"
+        },
+        "message": "The audit log was cleared",
+        "data_stream": {
+            "dataset": "system.system",
+            "namespace": "default",
+            "type": "logs"
+        },
+        "ecs": {
+            "version": "8.0.0"
+        }
     },
-    "host": {
-      "name": "DESKTOP-SALES042",
-      "hostname": "DESKTOP-SALES042",
-      "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
-      "os": {
-        "type": "windows",
-        "platform": "windows",
-        "family": "windows"
-      }
-    },
-    "winlog": {
-      "channel": "Security",
-      "event_id": "1102",
-      "provider_name": "Microsoft-Windows-Eventlog",
-      "computer_name": "DESKTOP-SALES042"
-    },
-    "user": {
-      "name": "jsmith",
-      "domain": "SALES"
-    },
-    "message": "The audit log was cleared",
-    "data_stream": {
-      "dataset": "system.system",
-      "namespace": "default",
-      "type": "logs"
-    },
-    "_index": "logs-system.system",
-    "ecs": {
-      "version": "8.0.0"
+    {
+        "@timestamp": "2025-09-22T09:30:30.000Z",
+        "event": {
+            "category": [
+                "process"
+            ],
+            "type": [
+                "info"
+            ],
+            "kind": "event",
+            "action": "script-block-log",
+            "dataset": "windows.powershell"
+        },
+        "host": {
+            "name": "DESKTOP-SALES042",
+            "hostname": "DESKTOP-SALES042",
+            "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
+            "os": {
+                "type": "windows",
+                "platform": "windows",
+                "family": "windows"
+            }
+        },
+        "powershell": {
+            "file": {
+                "script_block_text": "Clear-EventLog -LogName Security; Clear-EventLog -LogName Application; Clear-EventLog -LogName System",
+                "script_block_id": "f656d5b6-09d8-5c4b-9c3e-2b3c4d5e6f7a"
+            }
+        },
+        "winlog": {
+            "channel": "Microsoft-Windows-PowerShell/Operational",
+            "event_id": "4104",
+            "provider_name": "Microsoft-Windows-PowerShell"
+        },
+        "process": {
+            "executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "pid": 6789
+        },
+        "user": {
+            "name": "jsmith",
+            "domain": "SALES"
+        },
+        "data_stream": {
+            "dataset": "windows.powershell",
+            "namespace": "default",
+            "type": "logs"
+        },
+        "ecs": {
+            "version": "8.0.0"
+        }
     }
-  },
-  {
-    "@timestamp": "2025-09-22T09:30:30.000Z",
-    "event": {
-      "category": "process",
-      "type": "info",
-      "kind": "event",
-      "action": "script-block-log",
-      "dataset": "windows.powershell"
-    },
-    "host": {
-      "name": "DESKTOP-SALES042",
-      "hostname": "DESKTOP-SALES042",
-      "id": "a7b8c9d0-1234-5678-90ab-cdef12345678",
-      "os": {
-        "type": "windows",
-        "platform": "windows",
-        "family": "windows"
-      }
-    },
-    "powershell": {
-      "file": {
-        "script_block_text": "Clear-EventLog -LogName Security; Clear-EventLog -LogName Application; Clear-EventLog -LogName System",
-        "script_block_id": "f656d5b6-09d8-5c4b-9c3e-2b3c4d5e6f7a"
-      }
-    },
-    "winlog": {
-      "channel": "Microsoft-Windows-PowerShell/Operational",
-      "event_id": "4104",
-      "provider_name": "Microsoft-Windows-PowerShell"
-    },
-    "process": {
-      "executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-      "pid": 6789
-    },
-    "user": {
-      "name": "jsmith",
-      "domain": "SALES"
-    },
-    "data_stream": {
-      "dataset": "windows.powershell",
-      "namespace": "default",
-      "type": "logs"
-    },
-    "_index": "logs-windows.powershell",
-    "ecs": {
-      "version": "8.0.0"
-    }
-  }
 ]

@@ -47,7 +47,7 @@ class RuleExecutor:
         if 'ELASTIC_CLOUD_ID' in self.credentials:
             # Decode cloud ID to get the Kibana URL
             cloud_id = self.credentials['ELASTIC_CLOUD_ID']
-            # Cloud ID format: deployment-name:base64(elasticsearch_host$kibana_host$apm_host)
+            # Cloud ID format: deployment-name:base64(cloud_host$es_uuid$kibana_uuid)
             parts = cloud_id.split(':')
             if len(parts) == 2:
                 deployment_name = parts[0]
@@ -56,12 +56,22 @@ class RuleExecutor:
                 try:
                     decoded = base64.b64decode(encoded_hosts).decode('utf-8')
                     hosts = decoded.split('$')
-                    if len(hosts) >= 2:
-                        # Kibana host is the second part
-                        kibana_host = hosts[1] if hosts[1] else hosts[0]
-                        return f"https://{kibana_host}"
-                except:
-                    pass
+                    if len(hosts) >= 1:
+                        # The first part is the base cloud host
+                        cloud_host = hosts[0]
+                        # Extract ES UUID (second part)
+                        es_uuid = hosts[1] if len(hosts) > 1 else ""
+                        # Kibana UUID (third part) or use ES UUID
+                        kibana_uuid = hosts[2] if len(hosts) > 2 else es_uuid
+
+                        # Construct Kibana URL
+                        # Format: https://[kibana_uuid].[cloud_host]
+                        if kibana_uuid and cloud_host:
+                            return f"https://{kibana_uuid}.{cloud_host}"
+                        elif es_uuid and cloud_host:
+                            return f"https://{es_uuid}.{cloud_host}"
+                except Exception as e:
+                    print(f"Error decoding cloud ID: {e}")
 
         # Fallback to localhost if not using cloud
         return "https://localhost:5601"

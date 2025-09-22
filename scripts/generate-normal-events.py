@@ -105,8 +105,8 @@ class NormalEventGenerator:
                 "@timestamp": "",
                 "event": {
                     "kind": "event",
-                    "category": "host",
-                    "type": "info",
+                    "category": ["host"],  # ECS requires array
+                    "type": ["info"],  # ECS requires array
                     "dataset": "system.system",
                     "code": "7036"
                 },
@@ -196,7 +196,7 @@ class NormalEventGenerator:
         source["event"]["ingested"] = source["@timestamp"]
 
         # Set proper index
-        event["_index"] = "logs-system.system"
+        event["_index"] = "logs-system.system-default"
 
         return event
 
@@ -206,16 +206,17 @@ class NormalEventGenerator:
         process = random.choice(NORMAL_PROCESSES)
 
         event = {
-            "_index": "logs-windows.sysmon_operational",
+            "_index": "logs-windows.sysmon_operational-default",
             "_source": {
                 "@timestamp": self.generate_timestamp(),
                 "event": {
                     "kind": "event",
-                    "category": "process",
-                    "type": "start",
+                    "category": ["process"],  # ECS requires array for category
+                    "type": ["start"],  # ECS requires array for type
                     "dataset": "windows.sysmon_operational",
                     "code": "1",
-                    "action": "Process Create"
+                    "action": "Process Create",
+                    "ingested": self.generate_timestamp()
                 },
                 "host": {
                     "name": workstation["hostname"],
@@ -267,17 +268,18 @@ class NormalEventGenerator:
         workstation = random.choice(WORKSTATIONS)
 
         event = {
-            "_index": "logs-system.security",
+            "_index": "logs-system.security-default",
             "_source": {
                 "@timestamp": self.generate_timestamp(),
                 "event": {
                     "kind": "event",
-                    "category": "authentication",
-                    "type": "start",
+                    "category": ["authentication"],  # ECS requires array
+                    "type": ["start"],  # ECS requires array
                     "dataset": "system.security",
                     "code": "4624",
                     "action": "Logon",
-                    "outcome": "success"
+                    "outcome": "success",
+                    "ingested": self.generate_timestamp()
                 },
                 "host": {
                     "name": workstation["hostname"],
@@ -334,16 +336,17 @@ class NormalEventGenerator:
         ]
 
         event = {
-            "_index": "logs-windows.powershell",
+            "_index": "logs-windows.powershell_operational-default",
             "_source": {
                 "@timestamp": self.generate_timestamp(),
                 "event": {
                     "kind": "event",
-                    "category": "process",
-                    "type": "info",
+                    "category": ["process"],  # ECS requires array
+                    "type": ["info"],  # ECS requires array
                     "dataset": "windows.powershell",
                     "code": "4104",
-                    "action": "Script Block Logging"
+                    "action": "Script Block Logging",
+                    "ingested": self.generate_timestamp()
                 },
                 "host": {
                     "name": workstation["hostname"],

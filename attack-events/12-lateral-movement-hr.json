@@ -1,102 +1,108 @@
 [
-  {
-    "@timestamp": "2025-09-22T11:00:00.000Z",
-    "event": {
-      "type": "change",
-      "kind": "event",
-      "category": "registry",
-      "action": "registry-value-set",
-      "dataset": "endpoint.events.registry"
+    {
+        "@timestamp": "2025-09-22T11:00:00.000Z",
+        "event": {
+            "type": [
+                "change"
+            ],
+            "kind": "event",
+            "category": [
+                "registry"
+            ],
+            "action": "registry-value-set",
+            "dataset": "endpoint.events.registry"
+        },
+        "host": {
+            "name": "DESKTOP-HR019",
+            "hostname": "DESKTOP-HR019",
+            "id": "b8c9d0e1-2345-6789-01bc-defa23456789",
+            "os": {
+                "type": "windows",
+                "platform": "windows",
+                "family": "windows"
+            }
+        },
+        "registry": {
+            "hive": "HKEY_USERS",
+            "key": "S-1-5-21-123456789-1234567890-123456789-1002\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+            "path": "HKEY_USERS\\S-1-5-21-123456789-1234567890-123456789-1002\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\SystemHealthCheck",
+            "value": "SystemHealthCheck",
+            "data": {
+                "strings": "C:\\Users\\kbrown\\AppData\\Local\\Temp\\systemhealth.exe",
+                "type": "REG_SZ"
+            }
+        },
+        "process": {
+            "name": "cmd.exe",
+            "executable": "C:\\Windows\\System32\\cmd.exe",
+            "pid": 2345
+        },
+        "user": {
+            "name": "kbrown",
+            "domain": "SALES",
+            "id": "S-1-5-21-123456789-1234567890-123456789-1002"
+        },
+        "data_stream": {
+            "dataset": "endpoint.events.registry",
+            "namespace": "default",
+            "type": "logs"
+        },
+        "ecs": {
+            "version": "8.0.0"
+        }
     },
-    "host": {
-      "name": "DESKTOP-HR019",
-      "hostname": "DESKTOP-HR019",
-      "id": "b8c9d0e1-2345-6789-01bc-defa23456789",
-      "os": {
-        "type": "windows",
-        "platform": "windows",
-        "family": "windows"
-      }
-    },
-    "registry": {
-      "hive": "HKEY_USERS",
-      "key": "S-1-5-21-123456789-1234567890-123456789-1002\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
-      "path": "HKEY_USERS\\S-1-5-21-123456789-1234567890-123456789-1002\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\SystemHealthCheck",
-      "value": "SystemHealthCheck",
-      "data": {
-        "strings": "C:\\Users\\kbrown\\AppData\\Local\\Temp\\systemhealth.exe",
-        "type": "REG_SZ"
-      }
-    },
-    "process": {
-      "name": "cmd.exe",
-      "executable": "C:\\Windows\\System32\\cmd.exe",
-      "pid": 2345
-    },
-    "user": {
-      "name": "kbrown",
-      "domain": "SALES",
-      "id": "S-1-5-21-123456789-1234567890-123456789-1002"
-    },
-    "_index": "logs-endpoint.events.registry",
-  "data_stream": {
-      "dataset": "endpoint.events.registry",
-      "namespace": "default",
-      "type": "logs"
-    },
-    "ecs": {
-      "version": "8.0.0"
+    {
+        "@timestamp": "2025-09-22T11:15:00.000Z",
+        "event": {
+            "type": [
+                "connection"
+            ],
+            "kind": "event",
+            "category": [
+                "network"
+            ],
+            "action": "network-connection",
+            "dataset": "windows.sysmon_operational"
+        },
+        "host": {
+            "name": "DESKTOP-HR019",
+            "hostname": "DESKTOP-HR019",
+            "id": "b8c9d0e1-2345-6789-01bc-defa23456789",
+            "os": {
+                "type": "windows",
+                "platform": "windows",
+                "family": "windows"
+            }
+        },
+        "process": {
+            "name": "systemhealth.exe",
+            "executable": "C:\\Users\\kbrown\\AppData\\Local\\Temp\\systemhealth.exe",
+            "pid": 3456
+        },
+        "network": {
+            "protocol": "tcp",
+            "direction": "outbound"
+        },
+        "destination": {
+            "ip": "185.220.101.45",
+            "port": 443,
+            "address": "185.220.101.45"
+        },
+        "source": {
+            "ip": "172.16.1.19",
+            "port": 51234
+        },
+        "user": {
+            "name": "kbrown",
+            "domain": "SALES"
+        },
+        "data_stream": {
+            "dataset": "windows.sysmon_operational",
+            "namespace": "default",
+            "type": "logs"
+        },
+        "ecs": {
+            "version": "8.0.0"
+        }
     }
-  },
-  {
-    "@timestamp": "2025-09-22T11:15:00.000Z",
-    "event": {
-      "type": "connection",
-      "kind": "event",
-      "category": "network",
-      "action": "network-connection",
-      "dataset": "windows.sysmon_operational"
-    },
-    "host": {
-      "name": "DESKTOP-HR019",
-      "hostname": "DESKTOP-HR019",
-      "id": "b8c9d0e1-2345-6789-01bc-defa23456789",
-      "os": {
-        "type": "windows",
-        "platform": "windows",
-        "family": "windows"
-      }
-    },
-    "process": {
-      "name": "systemhealth.exe",
-      "executable": "C:\\Users\\kbrown\\AppData\\Local\\Temp\\systemhealth.exe",
-      "pid": 3456
-    },
-    "network": {
-      "protocol": "tcp",
-      "direction": "outbound"
-    },
-    "destination": {
-      "ip": "185.220.101.45",
-      "port": 443,
-      "address": "185.220.101.45"
-    },
-    "source": {
-      "ip": "172.16.1.19",
-      "port": 51234
-    },
-    "user": {
-      "name": "kbrown",
-      "domain": "SALES"
-    },
-    "_index": "logs-windows.sysmon_operational",
-  "data_stream": {
-      "dataset": "windows.sysmon_operational",
-      "namespace": "default",
-      "type": "logs"
-    },
-    "ecs": {
-      "version": "8.0.0"
-    }
-  }
 ]

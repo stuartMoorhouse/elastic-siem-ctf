@@ -694,5 +694,63 @@ Add the custom Rules using the API.
 Upload the data using today's date as the "end" of the event timeline. 
 Check that the expected Alerts have been triggered, so the CTF story can be followed. 
 
-Use the credentials in credentials.yml to connect to Elastic Cloud. 
+Use the credentials in credentials.yml to connect to Elastic Cloud.
+
+## Important Implementation Notes (Lessons Learned)
+
+### 1. Elasticsearch Data Stream Naming Convention
+**CRITICAL**: Elasticsearch data streams follow a specific naming pattern:
+- Format: `{type}-{dataset}-{namespace}`
+- Default namespace is "default"
+- Example: `logs-system.security-default`, `logs-windows.sysmon_operational-default`
+- Detection rules use wildcard patterns like `logs-system.security*` which will NOT match `logs-system.security` but WILL match `logs-system.security-default`
+
+### 2. ECS Field Type Requirements
+According to Elastic Common Schema (ECS), certain fields MUST be arrays, not strings:
+- `event.category` - Must be an array (e.g., `["process"]` not `"process"`)
+- `event.type` - Must be an array (e.g., `["start"]` not `"start"`)
+- These fields use `keyword` mapping type, NOT `text`
+
+### 3. Required Fields for Detection Rules
+Many detection rules require specific fields to function:
+- `event.ingested` - Timestamp field required by many rules for time-based queries
+- `file.name` - Required for file-related detections (not just `file.path`)
+- `process.name`, `process.executable` - Required for process detections
+- All fields must match ECS field naming exactly
+
+### 4. Index Creation and Mapping Conflicts
+**CRITICAL**: Avoid creating indices without proper naming:
+- NEVER create indices like `logs-system.security` (missing namespace)
+- Always use the full pattern: `logs-system.security-default`
+- Incorrect indices cause field mapping conflicts (e.g., `text` vs `keyword`)
+- Delete any incorrectly named indices immediately to prevent rule failures
+
+### 5. Data Ingestion Best Practices
+When ingesting events:
+- Always set `event.category` and `event.type` as arrays
+- Always include `event.ingested` timestamp
+- Use `data_stream` object to specify dataset, namespace, and type
+- The ingestion script should automatically fix/add missing fields
+- Use the `create` action for bulk API to ensure proper data stream handling
+
+### 6. Detection Rule Execution
+- Rules have default 5-minute intervals with 1-minute lookback
+- For historical data (like September 2025 events), manually trigger rules with extended lookback
+- Rules may fail with "verification_exception" if field mappings are incorrect
+- Check rule errors in Kibana for specific field mapping issues
+
+### 7. Common Pitfalls to Avoid
+- Don't mix indices with and without `-default` suffix
+- Don't use string values for `event.category` or `event.type`
+- Don't forget `event.ingested` field
+- Don't create indices manually - let data streams auto-create with correct mappings
+- Always check for and delete problematic indices before re-ingestion
+
+### 8. Script Requirements
+All Python scripts should:
+- Handle both single events and arrays of events
+- Automatically fix ECS field types (convert strings to arrays where needed)
+- Add missing required fields like `event.ingested`
+- Ensure proper index naming with `-default` suffix
+- Use `data_stream` object for proper routing
 
