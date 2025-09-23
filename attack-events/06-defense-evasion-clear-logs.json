@@ -53,7 +53,7 @@
             ],
             "kind": "event",
             "action": "script-block-log",
-            "dataset": "windows.powershell"
+            "dataset": "windows.powershell_operational"
         },
         "host": {
             "name": "DESKTOP-SALES042",
@@ -85,7 +85,7 @@
             "domain": "SALES"
         },
         "data_stream": {
-            "dataset": "windows.powershell",
+            "dataset": "windows.powershell_operational",
             "namespace": "default",
             "type": "logs"
         },
